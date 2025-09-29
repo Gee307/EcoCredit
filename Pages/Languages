@@ -1,0 +1,346 @@
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { 
+  Globe, 
+  Users, 
+  MapPin, 
+  CheckCircle,
+  Star,
+  MessageCircle,
+  Headphones
+} from "lucide-react";
+
+const supportedLanguages = [
+  { code: 'en', name: 'English', native: 'English', speakers: '125M+', regions: 'All India' },
+  { code: 'hi', name: 'Hindi', native: 'हिन्दी', speakers: '600M+', regions: 'Northern States' },
+  { code: 'bn', name: 'Bengali', native: 'বাংলা', speakers: '265M+', regions: 'West Bengal, Tripura' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు', speakers: '95M+', regions: 'Andhra Pradesh, Telangana' },
+  { code: 'mr', name: 'Marathi', native: 'मराठी', speakers: '83M+', regions: 'Maharashtra' },
+  { code: 'ta', name: 'Tamil', native: 'தமிழ்', speakers: '79M+', regions: 'Tamil Nadu' },
+  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી', speakers: '60M+', regions: 'Gujarat' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ', speakers: '48M+', regions: 'Karnataka' },
+  { code: 'ml', name: 'Malayalam', native: 'മലയാളം', speakers: '38M+', regions: 'Kerala' },
+  { code: 'or', name: 'Odia', native: 'ଓଡ଼ିଆ', speakers: '38M+', regions: 'Odisha' }
+];
+
+const localMonitors = [
+  {
+    name: "Ravi Shankar",
+    language: "Bengali",
+    location: "Sundarbans, West Bengal",
+    projects: 12,
+    rating: 4.9,
+    specialization: "Mangrove Conservation",
+    verified: true
+  },
+  {
+    name: "Priya Nair",
+    language: "Malayalam", 
+    location: "Kochi, Kerala",
+    projects: 8,
+    rating: 4.8,
+    specialization: "Coastal Restoration",
+    verified: true
+  },
+  {
+    name: "Abdul Rahman",
+    language: "Tamil",
+    location: "Rameswaram, Tamil Nadu",
+    projects: 15,
+    rating: 4.9,
+    specialization: "Coral Conservation",
+    verified: true
+  },
+  {
+    name: "Mukesh Patel",
+    language: "Gujarati",
+    location: "Dwarka, Gujarat",
+    projects: 10,
+    rating: 4.7,
+    specialization: "Marine Protection",
+    verified: true
+  }
+];
+
+const translationStats = {
+  totalTranslations: 45678,
+  activeProjects: 47,
+  communityContributors: 234,
+  accuracyRate: 96.8
+};
+
+export default function Languages() {
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [selectedRegion, setSelectedRegion] = useState('all');
+
+  const getCurrentLanguageData = () => {
+    return supportedLanguages.find(lang => lang.code === selectedLanguage) || supportedLanguages[0];
+  };
+
+  const getFilteredMonitors = () => {
+    if (selectedLanguage === 'en') return localMonitors;
+    return localMonitors.filter(monitor => 
+      monitor.language.toLowerCase().includes(getCurrentLanguageData().name.toLowerCase())
+    );
+  };
+
+  return (
+    <div className="p-6 space-y-8">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl p-8 text-white">
+        <h1 className="text-3xl font-bold mb-4">Multilingual Support System</h1>
+        <p className="text-purple-100 text-lg mb-6">
+          Breaking language barriers to empower coastal communities across India
+        </p>
+        
+        <div className="grid md:grid-cols-4 gap-6">
+          <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Globe className="w-4 h-4" />
+              <span className="text-sm font-medium">Languages</span>
+            </div>
+            <div className="text-2xl font-bold">10</div>
+            <div className="text-xs text-purple-100">Regional languages</div>
+          </div>
+          <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Users className="w-4 h-4" />
+              <span className="text-sm font-medium">Local Monitors</span>
+            </div>
+            <div className="text-2xl font-bold">234</div>
+            <div className="text-xs text-purple-100">Multilingual support</div>
+          </div>
+          <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <MessageCircle className="w-4 h-4" />
+              <span className="text-sm font-medium">Translations</span>
+            </div>
+            <div className="text-2xl font-bold">45.7K</div>
+            <div className="text-xs text-purple-100">Auto-translated</div>
+          </div>
+          <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <CheckCircle className="w-4 h-4" />
+              <span className="text-sm font-medium">Accuracy</span>
+            </div>
+            <div className="text-2xl font-bold">96.8%</div>
+            <div className="text-xs text-purple-100">Translation quality</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Language Selection */}
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Globe className="w-5 h-5 text-blue-500" />
+            Language Selection Interface
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Your Language</label>
+              <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Choose your preferred language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {supportedLanguages.map((language) => (
+                    <SelectItem key={language.code} value={language.code}>
+                      <div className="flex items-center gap-3">
+                        <span className="font-medium">{language.name}</span>
+                        <span className="text-sm text-gray-500">{language.native}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Region</label>
+              <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Choose your region" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Regions</SelectItem>
+                  <SelectItem value="west-bengal">West Bengal</SelectItem>
+                  <SelectItem value="tamil-nadu">Tamil Nadu</SelectItem>
+                  <SelectItem value="kerala">Kerala</SelectItem>
+                  <SelectItem value="gujarat">Gujarat</SelectItem>
+                  <SelectItem value="odisha">Odisha</SelectItem>
+                  <SelectItem value="karnataka">Karnataka</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-6">
+            <h3 className="font-semibold text-gray-900 mb-4">Selected Language: {getCurrentLanguageData().name}</h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div>
+                <span className="text-sm text-gray-600">Native Script</span>
+                <div className="text-xl font-medium">{getCurrentLanguageData().native}</div>
+              </div>
+              <div>
+                <span className="text-sm text-gray-600">Total Speakers</span>
+                <div className="text-xl font-medium text-blue-600">{getCurrentLanguageData().speakers}</div>
+              </div>
+              <div>
+                <span className="text-sm text-gray-600">Primary Regions</span>
+                <div className="text-sm text-gray-900">{getCurrentLanguageData().regions}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <Button className="bg-purple-600 hover:bg-purple-700 flex items-center gap-2">
+              <Headphones className="w-4 h-4" />
+              Enable Voice Support
+            </Button>
+            <Button variant="outline" className="flex items-center gap-2">
+              <MessageCircle className="w-4 h-4" />
+              Test Translation
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Local Monitors */}
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="w-5 h-5 text-green-500" />
+            Local Language Monitors
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid md:grid-cols-2 gap-6">
+            {getFilteredMonitors().map((monitor, index) => (
+              <div key={index} className="p-4 border rounded-lg hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-semibold text-gray-900">{monitor.name}</h4>
+                      {monitor.verified && (
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                      )}
+                    </div>
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <Globe className="w-4 h-4" />
+                        <span>{monitor.language} Speaker</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4" />
+                        <span>{monitor.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-1 mb-1">
+                      <Star className="w-4 h-4 text-yellow-500" />
+                      <span className="text-sm font-medium">{monitor.rating}</span>
+                    </div>
+                    <p className="text-xs text-gray-500">{monitor.projects} projects</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Badge variant="outline" className="text-xs">
+                    {monitor.specialization}
+                  </Badge>
+                </div>
+
+                <div className="flex gap-2 mt-4">
+                  <Button size="sm" variant="outline" className="flex-1">
+                    Contact
+                  </Button>
+                  <Button size="sm" className="flex-1 bg-green-600 hover:bg-green-700">
+                    Request Support
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Translation Dashboard */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MessageCircle className="w-5 h-5 text-orange-500" />
+              Translation Statistics
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Total Translations</span>
+              <span className="font-semibold">{translationStats.totalTranslations.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Active Projects</span>
+              <span className="font-semibold">{translationStats.activeProjects}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Community Contributors</span>
+              <span className="font-semibold">{translationStats.communityContributors}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Accuracy Rate</span>
+              <span className="font-semibold text-green-600">{translationStats.accuracyRate}%</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Headphones className="w-5 h-5 text-blue-500" />
+              Voice Support Features
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium">Voice Recognition</span>
+                </div>
+                <Badge className="bg-blue-100 text-blue-800">Active</Badge>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <span className="text-sm font-medium">Text-to-Speech</span>
+                </div>
+                <Badge className="bg-green-100 text-green-800">Active</Badge>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm font-medium">Real-time Translation</span>
+                </div>
+                <Badge className="bg-purple-100 text-purple-800">Active</Badge>
+              </div>
+            </div>
+            
+            <Button className="w-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2">
+              <Headphones className="w-4 h-4" />
+              Test Voice Features
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
